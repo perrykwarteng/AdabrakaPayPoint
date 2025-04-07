@@ -1,15 +1,17 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 Link;
 export default function Home() {
   return (
-    <>
-      <h1>Home</h1>
-      <p>
-        <Link className="text-blue-900" href="/payments">
-          Payments
+    <div className="min-h-screen flex flex-col items-center justify-center">
+      <h1 className="my-5 text-[30px] font-medium">Home</h1>
+
+      <Button type="submit" className="w-full md:w-[250px]">
+        <Link className="text-white" href="/payments">
+          Make Your payment here
         </Link>
-      </p>
-    </>
+      </Button>
+    </div>
   );
 }
