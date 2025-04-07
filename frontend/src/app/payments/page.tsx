@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 export default function Payments() {
   const [paymentData, setPaymentData] = useState({
@@ -25,20 +25,20 @@ export default function Payments() {
   const paymentTypes = ["Offering", "Tithe", "Donation", "Welfare"];
   const paymentMethods = ["MoMo", "Card"];
 
-  const handleChange = (e: any) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setPaymentData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleTypeChange = (value: any) => {
+  const handleTypeChange = (value: string) => {
     setPaymentData((prev) => ({ ...prev, type: value }));
   };
 
-  const handleMethodChange = (value: any) => {
+  const handleMethodChange = (value: string) => {
     setPaymentData((prev) => ({ ...prev, method: value }));
   };
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     console.log("Submitting Payment:", paymentData);
     // Call backend/payment API here

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-Link;
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
