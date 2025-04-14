@@ -6,9 +6,6 @@ import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import Success from "../../../public/vid/success.gif";
-import Failed from "../../../public/vid/failed.gif";
-import Image from "next/image";
 
 export default function Verify() {
   const searchParams = useSearchParams();
