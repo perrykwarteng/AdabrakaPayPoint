@@ -58,7 +58,6 @@ export default function Verify() {
   )?.value;
   const type = customFields.find((f: any) => f.display_name === "Type")?.value;
   const receipt = dataInfo?.data?.receipt_number;
-  const success = dataInfo?.status;
   const amount = dataInfo?.data?.amount;
   const formattedAmount = amount ? `GHS ${(amount / 100).toFixed(2)}` : "N/A";
 
