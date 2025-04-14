@@ -11,7 +11,9 @@ export const initiate = async (req, res) => {
       "https://api.paystack.co/transaction/initialize",
       {
         email,
+        phone,
         amount: amount * 100,
+        callback_url: "http://localhost:3000/verify",
         metadata: {
           custom_fields: [
             { display_name: "Name", variable_name: "name", value: name },
@@ -48,6 +50,43 @@ export const initiate = async (req, res) => {
     return res.status(500).json({
       status: "error",
       message: "Payment initialization failed",
+      error: error.message,
+    });
+  }
+};
+
+export const verify = async (req, res) => {
+  const { reference } = req.params;
+
+  try {
+    const response = await axios.get(
+      `https://api.paystack.co/transaction/verify/${reference}`,
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.PAYSTACK_KEY}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const result = response.data;
+
+    if (result.status === true) {
+      return res.status(200).json({
+        status: "success",
+        data: result.data,
+      });
+    } else {
+      return res.status(400).json({
+        status: "failed",
+        message: result.message || "Verification failed",
+      });
+    }
+  } catch (error) {
+    console.error("Paystack verification error:", error.message);
+    return res.status(500).json({
+      status: "error",
+      message: "An error occurred during verification",
       error: error.message,
     });
   }

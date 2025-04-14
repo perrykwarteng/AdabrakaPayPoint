@@ -1,8 +1,9 @@
 import express from "express";
-import { initiate } from "../controllers/payments.controller.js";
+import { initiate, verify } from "../controllers/payments.controller.js";
 const route = express.Router();
 
 // Routes
 route.post("/initiate-payment", initiate);
+route.get("/verify/:reference", verify);
 
 export default route;
