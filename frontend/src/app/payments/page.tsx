@@ -1,5 +1,8 @@
 "use client";
+import axios from "axios";
 
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,13 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ChangeEvent, useState } from "react";
 
 export default function Payments() {
   const [paymentData, setPaymentData] = useState({
     name: "",
-    titheNumber: "",
+    titheNumber: "000000000000",
     phone: "",
+    email: "Okay@gmail.com",
     amount: "",
     type: "Offering",
     note: "",
@@ -38,10 +41,24 @@ export default function Payments() {
     setPaymentData((prev) => ({ ...prev, method: value }));
   };
 
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log("Submitting Payment:", paymentData);
-    // Call backend/payment API here
+
+    try {
+      const respones = await axios.post(
+        "http://localhost:1800/api/payments/initiate-payment",
+        paymentData
+      );
+
+      const authorizationUrl = respones.data.data.data.authorization_url;
+      console.log("Redirecting to:", authorizationUrl);
+      router.push(authorizationUrl); // Redirect to Paystack
+    } catch (error) {
+      console.error("Payment initiation failed:", error);
+    }
   };
 
   return (
