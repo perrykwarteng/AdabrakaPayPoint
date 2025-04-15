@@ -25,9 +25,16 @@ function Verification() {
       if (!reference) return;
 
       try {
+        // PRO
         const response = await axios.get(
-          `http://localhost:1800/api/payments/verify/${reference}`
+          `https://adabrakapaypoint.onrender.com/api/payments/verify/${reference}`
         );
+
+        // DEV
+        // const response = await axios.get(
+        //   `http://localhost:1800/api/payments/verify/${reference}`
+        // );
+
         if (response.data.status === "success") {
           setDataInfo(response.data);
           setStatus("✅ Payment Successful");

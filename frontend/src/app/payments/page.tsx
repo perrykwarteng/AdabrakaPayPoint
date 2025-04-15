@@ -48,10 +48,17 @@ export default function Payments() {
     console.log("Submitting Payment:", paymentData);
 
     try {
+      // PRO
       const respones = await axios.post(
-        "http://localhost:1800/api/payments/initiate-payment",
+        "https://adabrakapaypoint.onrender.com/api/payments/initiate-payment",
         paymentData
       );
+
+      // DEV
+      // const respones = await axios.post(
+      //   "http://localhost:1800/api/payments/initiate-payment",
+      //   paymentData
+      // );
 
       const authorizationUrl = respones.data.data.data.authorization_url;
       console.log("Redirecting to:", authorizationUrl);
