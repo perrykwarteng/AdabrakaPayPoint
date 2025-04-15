@@ -1,16 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState, Suspense } from "react";
 import axios from "axios";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useRouter, useSearchParams } from "next/navigation";
 
-export default function Verify() {
-  const searchParams = useSearchParams();
+// Inner component
+function Verification() {
   const router = useRouter();
-  const ref = searchParams.get("reference");
+  const searchParams = useSearchParams();
+  const reference = searchParams.get("reference");
 
   const [status, setStatus] = useState("Verifying...");
   const [message, setMessage] = useState(
@@ -21,11 +22,11 @@ export default function Verify() {
 
   useEffect(() => {
     const verifyPayment = async () => {
-      if (!ref) return;
+      if (!reference) return;
 
       try {
         const response = await axios.get(
-          `http://localhost:1800/api/payments/verify/${ref}`
+          `http://localhost:1800/api/payments/verify/${reference}`
         );
         if (response.data.status === "success") {
           setDataInfo(response.data);
@@ -45,7 +46,7 @@ export default function Verify() {
     };
 
     verifyPayment();
-  }, [ref]);
+  }, [reference]);
 
   const customFields = dataInfo?.data?.metadata?.custom_fields || [];
 
@@ -86,7 +87,7 @@ export default function Verify() {
             <>
               <p className="flex justify-between">
                 <span className="opacity-70">Reference:</span>
-                <span className="font-mono">{ref || "N/A"}</span>
+                <span className="font-mono">{reference || "N/A"}</span>
               </p>
               <p className="flex justify-between">
                 <span className="opacity-70">Name:</span>
@@ -121,5 +122,14 @@ export default function Verify() {
         </Button>
       </Card>
     </div>
+  );
+}
+
+// Outer component wrapped with Suspense
+export default function Verify() {
+  return (
+    <Suspense fallback={<div className="text-center p-8">Loading...</div>}>
+      <Verification />
+    </Suspense>
   );
 }
