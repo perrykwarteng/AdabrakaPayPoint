@@ -27,12 +27,12 @@ function Verification() {
       try {
         // PRO
         const response = await axios.get(
-          `${process.env.PRODUCTION_URI}/api/payments/verify/${reference}`
+          `https://adabrakapaypoint.onrender.com/api/payments/verify/${reference}`
         );
 
         // DEV
         // const response = await axios.get(
-        //   `${process.env.LOCAL_URI}/api/payments/verify/${reference}`
+        //   `http://localhost:1800/api/payments/verify/${reference}`
         // );
 
         if (response.data.status === "success") {
