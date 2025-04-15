@@ -13,7 +13,7 @@ export const initiate = async (req, res) => {
         email,
         phone,
         amount: amount * 100,
-        callback_url: "http://localhost:3000/verify",
+        callback_url: "https://adabraka-pay-point.vercel.app/verify",
         metadata: {
           custom_fields: [
             { display_name: "Name", variable_name: "name", value: name },
