@@ -50,13 +50,13 @@ export default function Payments() {
     try {
       // PRO
       const respones = await axios.post(
-        "https://adabrakapaypoint.onrender.com/api/payments/initiate-payment",
+        `${process.env.PRODUCTION_URI}/api/payments/initiate-payment`,
         paymentData
       );
 
       // DEV
       // const respones = await axios.post(
-      //   "http://localhost:1800/api/payments/initiate-payment",
+      //   `${process.env.LOCAL_URI}/api/payments/initiate-payment`,
       //   paymentData
       // );
 
