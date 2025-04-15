@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/select";
 
 export default function Payments() {
+  const [loading, setLoading] = useState(false);
   const [paymentData, setPaymentData] = useState({
     name: "",
     titheNumber: "000000000000",
@@ -45,6 +46,7 @@ export default function Payments() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     console.log("Submitting Payment:", paymentData);
 
     try {
@@ -65,6 +67,8 @@ export default function Payments() {
       router.push(authorizationUrl); // Redirect to Paystack
     } catch (error) {
       console.error("Payment initiation failed:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -144,8 +148,10 @@ export default function Payments() {
                 value={paymentData.note}
                 onChange={handleChange}
               />
-              <Button type="submit" className="w-full">
-                {paymentData.method === "Card"
+              <Button type="submit" className="w-full" disabled={loading}>
+                {loading
+                  ? "Processing..."
+                  : paymentData.method === "Card"
                   ? "Pay with Card"
                   : "Pay with MoMo"}
               </Button>
